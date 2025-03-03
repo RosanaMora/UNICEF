@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRIPT UNICEF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://c4.wallpaperflare.com/wallpaper/263/983/695/2000px-flag-unicef-svg-wallpaper-preview.jpg');
+            background-size: cover;
+            background-position: center center;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .content {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 100%;
+            margin: 10px;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        label, input, textarea {
+            display: block;
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #step2 {
+            margin-top: 20px;
+        }
+
+        .objection-argument {
+            margin-top: 10px;
+            display: none;
+        }
+
+        select {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>Argumentos / Apelos</h2>
+        <form id="callForm">
+            <p>Olá bom dia, o meu nome é ____ e estou a ligar por parte da UNICEF:</p>
+            <p>Tenho o gosto de estar a falar com? <input type="text" id="clientNameInput" placeholder="Inserir Nome do Doador"> </p>
+            <p>Esta é uma chamada de caráter urgente de um apelo internacional da UNICEF para se tornar doador AMIGO DA UNICEF.<br>
+                Ser amigo UNICEF é ser doador de forma regular de forma a que possamos fazer um planeamento para atuar em situações por exemplo Catastrofes Naturais, 
+                Epidemias (por exemplo, sabia que foi a UNICEF que ajudou PORTUGAL durante o COVID19?, ou conflitos armados, como por exemplo na Ucrania, salvámos até agora milhares de crianças da fome.) 
+                Neste momento a maior emergencia são crianças com subnutrição GRAVE, têm chegado até nós pedidos urgentes de ajuda para salvar estas crianças e para isso precisamos de lhes dar umas saquetas à base de 
+                pasta de amendoim que são altamente nutritivas, e que ajudam a que estas crianças recuperem na totalidade entre 6 a 8 semanas, comendo 2,5 saquetas por dia. </p><br>
+            <p> Estas crianças não têm culpa de tudo o que se está a passar no mundo, concorda comigo, certo Sr/a (dona) <span id="clientNameDisplay1"></span> ?</p>
+
+            <select id="responseSelect" onchange="handleResponse()">
+                <option value="">Escolha uma opção de objeção do Doador:</option>
+                <option value="yes">SIM</option>
+                <option value="no">NÃO (Sem rematar o porquê)</option>
+                <option value="noPhone">Não adere por telefone.</option>
+                <option value="noListen">Estou a conduzir</option>
+                <option value="noListen1">Estou na fármacia (ocupado/a)</option>
+                <option value="noListen2">É oemu marido / mulher que decide essas coisas</option>
+                <option value="noRecord">Não aceita gravação da chamada</option>
+                <option value="onlyOneTime">Ajuda ou quer ajudar a UNICEF apenas com donativos pontuais</option>
+                <option value="alreadyDonate">Já colabora de outras formas / outras ONG's</option>
+                <option value="helpOthers">Ajuda outras ONGs</option>
+                <option value="dontBelieve">Não acredita em ONGs</option>
+                <option value="unemployedStudent">Desempregado/Estudante</option>
+                <option value="dontAgree">Não concorda com valores/periocidades das propostas</option>
+                <option value="helpMine">E quem é que me ajuda a mim ou aos meus?</option>
+                <option value="dontGiveIban">Não dou o meu IBAN a ninguém</option>
+                <option value="alreadyHaveMoney">Já doei antes/de outras formas </option>
+                <option value="trueMoney">Eu vou lá pessoalmente doar, não vou dar pelo telefone</option>
+            </select>
+
+            <div id="objectionArgument" class="hidden">
+                <p><strong>Argumento:</strong></p>
+                <p id="argumentText"></p>
+                <p><strong>Apelo:</strong></p>
+                <p id="appealText"></p>
+            </div>
+
+            <div id="thankYou" class="hidden">
+                <h2>Agradecemos a sua disponibilidade Sr/a (dona) <span id="clientNameDisplay2"></span> </h2>
+                <p>Embora não tenha decidido ajudar neste momento, a UNICEF agradece por ouvir nosso apelo. Saiba que pode sempre doar de outras formas.</p>
+            </div>
+
+            <div id="step1" class="hidden">
+                <p>Na UNICEF estamos apreensivos, sobretudo com as crianças nos países onde a fome aumentou muito, como na Somália e noutros países africanos, ou na Ucrânia agora devido ao conflito armado.</p>
+                <p>Chegam pedidos de ajuda todos os dias com crianças muito enfraquecidas, devido a problemas graves de subnutrição. Sem tratamento, estas crianças não vão sobreviver.<br>
+                    A cada minuto que passa, há mais 1 criança que corre o risco de não sobreviver por causa da subnutrição aguda grave.<br></p>
+            </div>
+
+            <div id="step2" class="hidden">
+                <p>Necessito então do seu nome completo:</p>
+                <input type="text" id="clientFullName" required>
+                <label>Inserir NIB abaixo:</label>
+                <input type="tel" id="phoneNumber" required>
+                <label>Inserir NIF abaixo:</label>
+                <textarea id="callSummary" rows="4" required></textarea>
+                <button type="button" onclick="saveData()">Salvar</button>
+            </div>
+            <h3>OBRIGADA</h3>
+        </form>
+    </div>
+
+
+    <pre id="output"></pre>
+    <script>
+        let clientName = ""; // Variável para armazenar o nome do cliente
+
+        // Função chamada ao selecionar "SIM" ou "NÃO" na primeira escolha
+        function handleResponse() {
+            let response = document.getElementById("responseSelect").value;
+            clientName = document.getElementById("clientNameInput").value; // Obtém o nome do cliente
+
+            // Atualiza os outros campos com o nome do cliente
+            document.getElementById("clientNameDisplay1").textContent = clientName;
+            document.getElementById("clientNameDisplay2").textContent = clientName;
+
+            // Se escolher SIM, esconde a etapa 1 e 2, mostrando o formulário para coletar dados
+            if (response === "yes") {
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
+    document.getElementById("thankYou").classList.add("hidden");
+    document.getElementById("objectionArgument").classList.add("hidden");
+} else if (response === "no") {
+            // Se escolher NÃO, exibe a primeira etapa com as explicações
+                document.getElementById("step1").classList.remove("hidden");
+                document.getElementById("step2").classList.add("hidden");
+                document.getElementById("thankYou").classList.add("hidden");
+                document.getElementById("objectionArgument").classList.add("hidden");
+        }   else if (response === "noPhone" || response === "noListen" || response === "noListen1" || response === "noListen2" || response === "noRecord" || response === "onlyOneTime" 
+        || response === "alreadyDonate" || response === "helpOthers" || response === "dontBelieve" || response === "unemployedStudent" || response === "dontAgree" || response === "helpMine"
+        || response === "dontGiveIban" || response === "alreadyHaveMoney" || response === "trueMoney") {
+            // Para todas as opções de objeção (NÃO + outras)
+                document.getElementById("step1").classList.remove("hidden");
+                document.getElementById("step2").classList.add("hidden");
+                document.getElementById("thankYou").classList.add("hidden");
+                document.getElementById("objectionArgument").classList.remove("hidden");
+}           else {
+                document.getElementById("step1").classList.add("hidden");
+                document.getElementById("step2").classList.add("hidden");
+                document.getElementById("thankYou").classList.add("hidden");
+                document.getElementById("objectionArgument").classList.add("hidden");
+}
+
+            // Exibir contra-argumento baseado na escolha
+            showObjectionArgument(response);
+        }
+
+        // Função chamada quando uma objeção é selecionada
+        function showObjectionArgument(response) {
+            let argumentText = document.getElementById("argumentText");
+            let appealText = document.getElementById("appealText");
+
+            // Substitui "NOME" pelo nome do cliente nos argumentos e apelos
+            argumentText.innerHTML = argumentText.innerHTML.replace(/NOME/g, clientName);
+            appealText.innerHTML = appealText.innerHTML.replace(/NOME/g, clientName);
+
+            switch (response) {
+                case 'noPhone':
+                    argumentText.innerHTML = `Sr/a (dona) ${clientName}, fazer a doação regular agora por telefone permite que a UNICEF tenha um planeamento para uma resposta rápida até 72h, em casos extremamente graves de Subnutrição ou em Catastrofes / Conflitos Armados. Concorda comigo que é urgente este apelo certo?`;
+                    appealText.innerHTML = `<strong>Apelo:</strong> A sua doação hoje pode salvar 6 crianças com 0,67eur por dia, concorda comigo que estas crianças preciam de ajuda Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'noListen':
+                    argumentText.innerHTML = `<strong>Estou a conduzir:</strong> Sr/a (dona) ${clientName}, tem onde parar o carro? Para sua segurança peço que encoste o seu carro por favor, pois esta chamada é de caracter urgente com um apelo internacional`;
+                    appealText.innerHTML = `Agora que já podemos falar com calma, ajude-nos a salvar estas crianças. Conseguimos salvar 6 crianças da subnutrição grave e evitar a MORTE. O que fazemos com 0,67eur diários em Portugal? Para nós é tão pouco, para estas crianças é a diferença entre viver ou morrer, concorda Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'noListen1':
+                    argumentText.innerHTML = `<strong>Estou na farmácia, agora não posso.</strong> : Sr/a (dona) ${clientName}, já está a ser atendido ou podemos aqui reservar uns minutos para me ajudar? Cada minuto conta e como referido anteriormente este apelo internacional é URGENTE. A ajuda de que as crianças precisam é urgente! A UNICEF tem detetado cada vez mais crianças com subnutrição grave e estas saquetas à base de pasta de amendoim altamente nutritivos vão ser a diferença entre a vida e a morte`;
+                    appealText.innerHTML = `O que estamos a pedir é uma ajuda regular para estas saquetas salvarem estas seis crianças. O que fazemos hoje em Portugal com 0,67€? <strong>(Deixar falar...)</strong> Nada, certo? Aqui podemos salvas vidas. Concorda comigo que estas crianças precisam da sua ajuda Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'noListen2':
+                    argumentText.innerHTML = `<strong>O meu marido/mulher é que decide</strong> : Sr/a (dona) ${clientName}, garanto que o seu marido/mulher irá ficar orgulhoso por ajudar esta causa que nos vai ajudar a salvar seis crianças da morte.`;
+                    appealText.innerHTML = `Vou fazer-lhe uma questão, quando vê um produto em promoção nas compras, compra diretamente ou pede permissão ao seu marido?<strong>(Deixar falar...)</strong> Neste caso, está a decidir salvar a vida se seis crianças, hoje em dia 0,67eur por dia não chega nem para um café, mas significa a vida para estas crianças. Certo Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'noRecord':
+                    argumentText.innerHTML = `A gravação da chamada é apenas uma medida de segurança para garantir a veracidade da nossa aconversa e o proteger a si e a mim, que não posso mentir ou omitir nada pondo em risco o meu trabalho. Sabemos da importância de proteger todos os envolvidos. No entanto, posso enviar neste momento um email para si através do nosso email oficial dos Amigos da UNICEF e poderá também confirmar a informação no nosso SITE`;
+                    appealText.innerHTML = `De qualquer forma caso não queira autorizar a chamada, vou apenas informá-lo da nossa missão junto das crianças e da ajuda que necessitamos para ficar a conhecer melhor a nossa ONG. O nosso objetivo com estas doações regulares é salvar as crianças subnutridas da morte, sendo que elas precisam de aprender a comer novamente, fornecemos umas saquetas a base de pasta de amendoium antamente nutritivas, que têm o custo de 0.67cent / dia`;
+                    break;
+                case 'onlyOneTime':
+                    argumentText.innerHTML = `Agradeço imenso a sua generosidade, no entanto, a doação regular permite à UNICEF fazer um planeamento sistemático e reagir rapidamente (até 72h), em situações extremamente urgentes em diferentes países como por exemplo no conlfito armado da Ucrania, permitindo que estas crianças com subnutrição grave possam sobreviver. E atualmente perdemos um grande apoio dos EUA.`;
+                    appealText.innerHTML = `Com uma contribuição regular, você pode salvar estas vidas. O que fazemos hoje em Portugal com 0,67€? (Deixar falar...) Nada, certo Sr/a (dona) ${clientName} ? Aqui podemos salvas vidas. Concorda comigo que estas crianças precisam da sua ajuda?`;
+                    break;
+                case 'alreadyDonate':
+                    argumentText.innerHTML = `Isso é incrível! Mas esta é uma chamada de caracter urgente como referi anteriormente para salvar as crianças da subnutrição grave. É uma questão de prioridades, pode sempre dividir a doação que já faz permitindo assim ajudar mais ou fazer a sua doação de caracter emergencial neste momento a estas crianças e poderá sempre alterar o valor ou cancelar a qualquer momento pois não existe qualquer obrigatoriedade.`;
+                    appealText.innerHTML = `Ajude-nos a salvar 6 crianças, são apenas 0,67eur por dia que fazem TODA a diferença e evitam a morte destes meninos. Concorda comigo que é uma situação urgente, certo Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'helpOthers':
+                    argumentText.innerHTML = `A sua ajuda para outras ONGs é fundamental, mas a UNICEF tem um alcance global que pode atuar onde as crianças mais necessitam. Neste caso, o apelo é para ajudar as crianças com subnutrição aguda grave fornencendo uams saquetas altamente nutritivas à base de pasta de amendoim.`;
+                    appealText.innerHTML = `Sua contribuição é importante em qualquer organização, mas a sua doação regular AGORA vai permitir salvar seis crianças da morte. São 0,67eur que hoje em dia não fazemos nada em Portugal com eles, certo Sr/a (dona) ${clientName}? Concorda comigo?`;
+                    break;
+                case 'dontBelieve':
+                    argumentText.innerHTML = `A UNICEF tem mais de 75 anos de história, atuando para salvar vidas ao redor do mundo. O nossos esforços são transparentes e responsáveis, poderá obter todas as informações no nosso site, e eu posso enviar neste preciso momento um email para si dos amigos da UNICEF.`;
+                    appealText.innerHTML = `Acredite, sua ajuda pode fazer toda a diferença no futuro destas seis crianças! São 0,67eur por dia que para nós não é nada e para eles significa a A VIDA. Certo , Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'unemployedStudent':
+                    argumentText.innerHTML = `Sr/a (dona) ${clientName}, qualquer valor que você possa doar será de grande ajuda para estas crianças, para nós parece pouco mas para eles com estas saquetas de alto valor nutricional é a diferença entre a vida e a morte.`;
+                    appealText.innerHTML = `Ajude-nos a salvar estas crianças. Os nossos doadores regulares costumam doar entre 0,40 a 0,43eur por dia, o que equivale a cerca de 12/13eur por mês. O mair importante é a sua ajuda. Este valor seria mais vável para si Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'dontAgree':
+                    argumentText.innerHTML = `Sabemos que há preocupações sobre valores, mas com 0,67€ por dia podemos salvar vidas de crianças que precisam urgentemente de ajuda. O motivo pelo qual procuramos doadores regulares é para que possa existir um planeamento prévio para atuar em situações de emergencia até 72h `;
+                    appealText.innerHTML = `Sua doação pode fazer a diferença para salvar vidas. Vamos ajudar juntos Sr/a (dona) ${clientName} ?`;
+                    break;
+                case 'helpMine':
+                    argumentText.innerHTML = `Infelizmente sei que muitas pessoas enfrentam dificuldades hoje em dia e o sistema não parece funcionar como deveria. No entanto a UNICEF é uma ONG que age de forma direta em situações extremamente graves de crianças entre a vida e a morte. O nosso trabalho como voluntários é constante. Neste caso, o apelo urgente é para crianças em estado de subnutrição GRAVE em risco de morte.`;
+                    appealText.innerHTML = `Precisamos da sua ajuda, com a sua doação regular, para salvas seis crianças subnutridas. Elas não têm culpa de tudo o que se passa no mundo, concorda comigo? Sr/a (dona) ${clientName}? `;
+                    break;
+                case 'dontGiveIban':
+                    argumentText.innerHTML = `Se o IBAN fosse um dado muito pessoal não aparecia nas televisões. Apenas entidades credenciadas pelo BANCO DE PORTUGAL podem fazer débitos a partir de um IBAN.`;
+                    appealText.innerHTML = `Ajude-nos a ajudar aqueles que não têm culpa de tudo o que se passa no mundo. Concorda que estas crianças precisam com urgencia da nossa ajuda Sr/a (dona) ${clientName}?`;
+                    break;
+                case 'alreadyHaveMoney':
+                    argumentText.innerHTML = `A fome e a desnutrição existe cada vez mais em níves assustadores. A UNICEF precisa de mais apoio para chegar salvar ainda mais crianças expandindo as operações.`;
+                    appealText.innerHTML = `Estas crianças não tem culpa do que acontece no mundo, concorda comigo Sr/a (dona) ${clientName}? Podemos ajudar com 0.67eur por dia que para nós não é quase nada e para estas crianças significa A VIDA OU A MORTE`;
+                    break;
+                case 'trueMoney':
+                    argumentText.innerHTML = `As doações diretas são muito valiosas, mas a nossa campanha neste momento é de caracter urgente como referido anteriormente e por isso é que estamos a contacta-lo. Os voluntários trabalham para garantir que as doeações chegam a quem realmente precisa sem despredícios ou intermediários`;
+                    appealText.innerHTML = `Estas crianças subnutridas estão à beira da morte, concorda comigo que com a sua doação podemos ajudar seis crianças? O que fazemos em Portugal com 0,67eur por dia? NADA. Aqui, podemos dar vidas. Concorda comigo Sr/a (dona) ${clientName}?`;
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
